@@ -27,17 +27,37 @@ exports.create_user = function(req, res) {
 };
 
 exports.show_friends = function(req, res){
-    res.render('friends');
+    if (req.session && req.session.key) {
+        res.render('friends', {title: "Amigos", });
+    }
+    else{
+        res.redirect('/');
+    }
 }
 
 exports.login = function(req, res){
     let user = req.body.user, pass = req.body.pass;
-    let userInDB = userModel.findOne({user: user});
-    if(userIndDB.pass == pass){
-        res.redirect("/friends");
-    }
-    else{
-        res.send(JSON.stringify({message: "Senha errada"}));
+
+    if(user.length === 0 || pass.length === 0){
+        return res.send('[{"message": "Nenhum campo pode estar vazio"}]');
     }
 
+    userModel.findOne({"user": user}, function(err,doc){
+        if(err || doc === null){
+            return res.send('['+JSON.stringify({message: "Dados incorretos"})+']');
+        }
+        if(doc.pass === pass){
+            req.session.key = user;
+            res.send('['+JSON.stringify({message: "Sucesso"})+']')
+        }
+        else{
+            return res.send('['+JSON.stringify({message: "Dados incorretos"})+']');
+        }
+    });
+  
+};
+
+exports.sair = function(req, res){
+    req.session.destroy();
+    return res.redirect('/');
 };

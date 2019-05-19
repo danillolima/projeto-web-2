@@ -28,6 +28,13 @@ app.use(bodyParser.json());
 // for parsing application/xwww-
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(session({
+  secret: "gato no teclado",
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
 app.use(multer);
 app.use(logger('dev'));
 app.use(express.json());

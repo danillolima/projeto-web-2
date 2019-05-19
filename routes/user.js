@@ -10,9 +10,11 @@ router.get('/', function(req, res, next) {
 router.get('/cadastrar', function(req, res, next){
   res.render('cadastrar', {title: "Cadastro"});
 });
+
+
+router.get('/amigos', userController.show_friends);
+router.get('/sair', userController.sair);
 router.post('/cadastrar', userController.create_user);
-
-router.get('/friends', userController.show_friends);
-
+router.post('/verificar', userController.login);
 
 module.exports = router;

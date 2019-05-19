@@ -42,7 +42,9 @@ a {
 .main{
   padding-left: 0.5rem;
   padding-right: 0.2rem;
-  
+}
+.conteudo{
+  padding-top: 2em;
 }
 .form-geral{
   display: grid;
