@@ -5,6 +5,7 @@ body {
 }
 iframe{
   color: #fff;
+  min-height: 300px;
 }
 h1 .logo{
   margin-top: 0;
@@ -18,8 +19,8 @@ a {
   max-width: 800px;
   background: #7a297a;
   color: #fff;
-  min-height: 100vh;
   border-radius: 5px;
+  height: 100vh;
 }
 .logo{
   text-align: center;
@@ -54,6 +55,10 @@ a {
   display: grid;
   grid-template-columns: 30% 69%;
   grid-column-gap: 0.5%;
+}
+#janela{
+  margin-top: 1em;
+  width:100%;
 }
 .form-geral{
   display: grid;

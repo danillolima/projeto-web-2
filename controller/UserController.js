@@ -78,12 +78,13 @@ exports.sair = function(req, res){
 exports.buscar = function(req, res){
     let search = req.query.q;
     userModel.find({user: { $not:  { $regex: req.session.key }, $regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
-        if(err || doc === null){
-            console.log(err);
-            return res.send('['+JSON.stringify({message: "Nenhum usuário encontrado!"})+']');
-        }
+        if(err) console.log(err);
+        
+        if(doc == undefined){
+                return res.send('<p style="color:#fff;">Nada encontrado</p>');
+        }    
         console.log(doc);
-        res.render('search', {resultados: doc, layout: 'search'} )
+        res.render('search', {resultados: doc, layout: 'search'} );
     }).limit(10);
 };
 

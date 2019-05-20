@@ -6,6 +6,7 @@ bodyParser = require('body-parser'),
 multer =  require('multer')().single(),
 logger = require('morgan'),
 mongoose = require('mongoose'),
+hbs = require('hbs'),
 indexRouter = require('./routes/index'),
 usersRouter = require('./routes/user'),
 chatRouter = require('./routes/chat'),
@@ -17,7 +18,9 @@ var app = express();
 // Motor de template
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
+hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
 //Conexão com o mongo 
 var mongoDB = 'mongodb://127.0.0.1/chat';
 mongoose.connect(mongoDB, { useNewUrlParser: true });

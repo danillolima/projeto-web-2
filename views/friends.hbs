@@ -8,7 +8,7 @@
         <h1>Meus amigos</h1>
             <ul>
                {{#amigos}}
-                <li style="border-top: 1px #ccc solid; padding: 5px;">{{this.user}} <a class="conversar" onclick="chat({{this.id}});" href="">Conversar</a> </li>
+                <li style="border-top: 1px #ccc solid; padding: 5px;">{{this.user}} <button onclick="chat('{{this.id}}');" href="">Conversar</button> </li>
                 {{/amigos}}
             </ul>
     </div>
@@ -17,10 +17,15 @@
            <iframe id="janela" src=""></iframe>
     </div>
        
+    </div> 
+</div>
+
+
+
         <script>
             var resposta = document.querySelector('#janela');
-            function chat(){
-                console.log('teste');
+            function chat(id){
+                resposta.src = '/chat?id=' + id;
             }
             (function(){
                 let form = document.querySelector('#busca'),
@@ -33,5 +38,3 @@
                 })  
             }())
             </script>
-    </div> 
-</div>
