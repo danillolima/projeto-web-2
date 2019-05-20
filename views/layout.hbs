@@ -13,7 +13,8 @@
           <nav class="menu">
           <ul>
             <li><a href="/">início</a></li>
-            <li><a href="/users/cadastrar">cadastro</a></li>
+            {{#unless logado }}<li><a href="/users/cadastrar">cadastro</a></li>  {{/unless}}
+            {{#if logado }}<li><a href="/users/amigos">amigos</a> </li>{{/if}}
             <li><a href="/users/sair">sair</a></li>
           </ul>
           </nav>

@@ -1,6 +1,5 @@
 
-
-
+{{#unless logado}}
 <form method="POST" id="login" class="form-geral form-destacado" action="/users/verificar">
 <ul id="resposta">
 </ul>
@@ -38,10 +37,16 @@
 
         httpRequest.onreadystatechange = function(){
             if (httpRequest.readyState === 4) {
-                for(msg of JSON.parse(this.responseText))
+                for(msg of JSON.parse(this.responseText)){
                     resposta.innerHTML += '<li>' + msg.message + '</li>';
+                    if(msg.message === 'Sucesso')
+                        window.location.replace("/users/amigos");
+                }
             }
+           
 	    }
     })  
 }())
 </script>
+
+{{/unless}}

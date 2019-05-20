@@ -5,6 +5,8 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema(
     {
         user: { type: String,
+                lowercase: true,
+                trim: true, 
                 required: [true, "É requerido um nome de usuário."],
                 unique: [true, "Usuário deve ser único"]
             },
@@ -16,7 +18,9 @@ var UserSchema = new Schema(
                 required: [true, "Defina um senha."],
                 min: [6, "Use ao menos 6 caracteres."],
                 max: 12
-            }
+            },
+        friends: [{type: Schema.Types.ObjectId, ref: 'User'}]
     }
 );
+
 module.exports = mongoose.model('User', UserSchema);
