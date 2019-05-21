@@ -6,8 +6,8 @@ exports.create_user = function(req, res) {
     //res.write(req.body.user);
     let user = req.body.user, email = req.body.mail, pass = req.body.pass;
     let instanceUser = new userModel({user: user, mail: email, pass: pass});
-    var msg;
-    instanceUser.save(function(err){
+    /*
+    instanceUser.create(function(err){
         if(err){
             var erros = '[', i = 0; 
             for(let ind in err.errors){
@@ -21,9 +21,28 @@ exports.create_user = function(req, res) {
             return console.log(req.body.user);
         }
         res.send('['+JSON.stringify({message: "Cadastrado com sucesso."})+']');
-    })
-    //userModel.
-   // res.send(msg);
+    });
+    */
+    userModel.create({user: user, mail: email, pass: pass}, function(err){
+        if(err){
+            var erros = '[', i = 0; 
+            for(let ind in err.errors){
+                if(i>0)
+                    erros +=', ';
+                erros += JSON.stringify(err.errors[ind]);
+                i++;
+            }
+            if(err.code === 11000){
+                if (i>0)
+                    erros += ', ';
+                erros += JSON.stringify({message: "Usuário ou email já cadastrado"});
+            }
+            erros += ']';
+            res.send(erros);
+            return console.log(err);
+        }
+        res.send('['+JSON.stringify({message: "Cadastrado com sucesso."})+']');
+    });
 };
 
 exports.show_friends = function(req, res){

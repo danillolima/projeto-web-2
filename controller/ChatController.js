@@ -14,11 +14,13 @@ exports.create_message = function(req, res) {
             if(err || doc === null){
                 return res.send('['+JSON.stringify({message: "Erro no banco de dados"})+']');
             }
-            Message.create({message: msg, sender: doc.id, recipient: recipient }, function(err, doc){
-                if(err) console.log(err);
-                
-                res.redirect('/chat?id='+recipient);
-            });
+            
+            if(msg.length > 0){
+                Message.create({message: msg, sender: doc.id, recipient: recipient }, function(err, doc){
+                    if(err) console.log(err);
+                });
+            }
+            res.redirect('/chat?id='+recipient);
         });
     }
     else{
