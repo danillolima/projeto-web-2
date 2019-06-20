@@ -1,5 +1,3 @@
-var express = require('express');
-var router = express.Router();
 var userModel = require('../model/User');
 
 exports.create_user = function(req, res) {
@@ -55,8 +53,7 @@ exports.show_friends = function(req, res){
             amigos({_id: {$in: doc.friends}}).then(function(listaAmigos){
                 res.render('friends', {title: "Amigos", logado: req.session.key, amigos: listaAmigos});
             });
-     });
-        
+        });
     }
     else{
         res.redirect('/');
@@ -66,7 +63,7 @@ exports.show_friends = function(req, res){
 const amigos = async function (params) { 
     try {  return await userModel.find(params)
     } catch(err) { console.log(err) }
-}   
+}
 
 exports.login = function(req, res){
     let user = req.body.user, pass = req.body.pass;
@@ -110,7 +107,7 @@ exports.buscar = function(req, res){
 // Recebo id do usuário para adicionar
 exports.addUser = function(req, res){
     let id = req.query.id;
-    if (req.session && req.session.key) {
+    if (req.session && req.session.key && id != undefined) {
 
         userModel.findOne({"user": req.session.key}, function(err,doc){
             if(err || doc === null){
@@ -127,4 +124,4 @@ exports.addUser = function(req, res){
     else{
         res.redirect('/');
     }
-}
+};

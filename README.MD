@@ -6,7 +6,7 @@
     - Enviar mensagem para amigo
 
 ## Para instalar dependências 
-npm install
+cd api && npm install && cd ../frontend/ && npm install
 
 ## Para Iniciar
-SET DEBUG=projeto_web_2:* & npm start
+npm start em cada um dos módulos.

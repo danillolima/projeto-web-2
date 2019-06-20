@@ -10,10 +10,12 @@ hbs = require('hbs'),
 indexRouter = require('./routes/index'),
 usersRouter = require('./routes/user'),
 chatRouter = require('./routes/chat'),
-session = require('express-session');
-
+session = require('express-session'),
+cors = require("cors");
 
 var app = express();
+
+app.use(cors());
 
 // Motor de template
 app.set('views', path.join(__dirname, 'views'));
@@ -47,10 +49,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use(morgan('dev'));         
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/auth', indexRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/chat', chatRouter);
 
-app.use('/chat', chatRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
