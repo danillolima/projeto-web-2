@@ -17,10 +17,6 @@ var app = express();
 var corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
-  "Access-Control-Allow-Credentials": true,
-  "Access-Control-Allow-Origin": true,
-  "Access-Control-Allow-Headers": true,
-  "Access-Control-Expose-Headers": true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));
@@ -60,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use(morgan('dev'));         
 
-app.use('/api/auth', indexRouter);
+app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/chat', chatRouter);
 
@@ -77,7 +73,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  //res.render('error');
 });
 
 module.exports = app;

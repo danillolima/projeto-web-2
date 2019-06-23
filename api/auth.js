@@ -9,7 +9,8 @@ module.exports.withAuth = function(req, res, next) {
       req.cookies.token;
     
     if (!token) {
-      res.status(401).send('Não autorizado: Sem token');
+      res.status(401);
+      res.send('Não autorizado: Sem token');
     } else {
       jwt.verify(token, secret, function(err, decoded) {
         if (err) {

@@ -1,6 +1,8 @@
 import "./styles.css";
 import React, { Component } from 'react';
-import api from "../../sevices/api";
+import api from "../../services/api";
+import { withRouter } from 'react-router-dom';
+
 export default class Login extends Component {
   constructor(props) {
     super(props)
@@ -24,7 +26,7 @@ export default class Login extends Component {
     })
     .then(response => {
       if(response.status === 200) {
-        this.props.history.push('/');
+        this.props.history.push('/friends');
         console.log(response);
       }
       else {

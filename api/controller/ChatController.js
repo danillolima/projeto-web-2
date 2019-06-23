@@ -37,7 +37,7 @@ exports.get_all_messages = function(req, res){
         return res.send(JSON.stringify(msgs));
     }
     console.log(sender + ' ' + idRecipient );
-    User.findOne({_id: sender}, function(err, doc){
+    User.findOne({user: sender}, function(err, doc){
         
         if(err || doc === null){
             let msgs = {
@@ -53,3 +53,4 @@ exports.get_all_messages = function(req, res){
         });
     });
  };
+

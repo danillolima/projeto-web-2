@@ -7,7 +7,7 @@ const Signup = () => {
   return (
     <Fragment>
       <Header />
-      <div class="signup">
+      <div className="signup">
         <h1>Página de cadastro</h1>
         <Form/>
       </div>

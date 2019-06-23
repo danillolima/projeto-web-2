@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import api from "../../sevices/api";
+import api from "../../services/api";
 export default function Auth(ComponentToProtect) {
   return class extends Component {
     constructor() {
@@ -8,6 +8,7 @@ export default function Auth(ComponentToProtect) {
       this.state = {
         loading: true,
         redirect: false,
+        user: null
       };
     }
     componentDidMount() {
@@ -16,6 +17,7 @@ export default function Auth(ComponentToProtect) {
         })
         .then(resp => {
             if(resp.status === 200){
+              this.setState({ user: resp.data.user });
               this.setState({ loading: false });
             }
             else {
@@ -38,7 +40,7 @@ export default function Auth(ComponentToProtect) {
       }
       return (
         <React.Fragment>
-          <ComponentToProtect {...this.props} />
+          <ComponentToProtect {...this.props} user={this.state.user} />
         </React.Fragment>
       );
     }

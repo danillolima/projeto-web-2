@@ -3,15 +3,21 @@ import Header from "../../components/Header"; // Importação do Header
 import Login from "../../components/LoginForm";
 import './style.css';
 
-const Main = () => {
-  return (
-    <Fragment>
-      <Header />
-      <div className="login">
-        <Login />
-      </div>
-      
-    </Fragment>
-  );
+class Main extends React.Component {
+  //component
+  //let history = this.props.history;
+  constructor(props) {
+    super(props)
+  }
+    render(){
+    return (
+      <Fragment>
+        <Header />
+        <div className="login">
+          <Login history={this.props.history}/>
+        </div>
+      </Fragment>
+    );
+  }
 };
 export default Main;

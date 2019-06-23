@@ -47,15 +47,15 @@ exports.create_user = function(req, res) {
 
 exports.show_friends = function(req, res){
     //if (req.session && req.session.key) {
-        let id = req.body.id;
-        userModel.findOne({"user": id}, function(err,doc){
+        let user = req.body.user;
+        userModel.findOne({"user": user}, function(err,doc){
             if(err || doc === null){
                 return res.send('['+JSON.stringify({message: "Erro no banco de dados"})+']');
             }
             
             amigos({_id: {$in: doc.friends}}).then(function(listaAmigos){
                 //res.render('friends', {title: "Amigos", logado: req.session.key, amigos: listaAmigos});
-                JSON.stringify(listaAmigos);
+                res.send(JSON.stringify(listaAmigos));
             });
         });
    // }
@@ -65,7 +65,7 @@ exports.show_friends = function(req, res){
 }
 
 const amigos = async function (params) { 
-    try {  return await userModel.find(params)
+    try {  return await userModel.find(params).select({"user": 1})
     } catch(err) { console.log(err) }
 }
 
@@ -82,16 +82,13 @@ exports.login = function(req, res){
             if(doc.pass === pass){
                 //req.session.key = user;
                 //res.send('['+JSON.stringify({message: "Sucesso"})+']')
-                var token = jwt.sign(
-                    { user: user }, 
-                    secret,
-                    (err, token) => {
-                        res.cookie('token', token, { httpOnly: true });
-                        res.send({
-                        ok: true,
-                        message: "Sucesso"
-                      })
-                    })
+                const payload = { user };
+                const token = jwt.sign(payload, secret, {
+                  expiresIn: '1h'
+                });
+                
+                res.cookie('token', token, { httpOnly: true })
+                  .sendStatus(200);
             }
             else{
                 return res.send('['+JSON.stringify({message: "Dados incorretos"})+']');
@@ -100,8 +97,8 @@ exports.login = function(req, res){
 };
 
 exports.sair = function(req, res){
-    req.session.destroy();
-    return res.redirect('/');
+    res.clearCookie('token'); 
+    res.redirect('/'); 
 };
 
 exports.buscar = function(req, res){

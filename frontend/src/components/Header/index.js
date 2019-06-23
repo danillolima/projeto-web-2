@@ -1,23 +1,36 @@
 import React from 'react';
 import './style.css';
+import '../../services/api'
+import api from '../../services/api';
 export default class Header extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             title: 'Chat Legal'
         };
-    }
+    };
+    logout = () => {
+        api.get('/api/users/logout');
+    };
     render(){
         return (
             <header>
                 <h1 className="logo">{this.state.title}</h1>
                 <nav className="menu">
-                <ul>
-                    <li><a href="/">início</a></li>
-                    <li><a href="/signup">cadastro</a></li>  
-                    <li><a href="/friends">amigos</a> </li>
-                    <li><a href="/logout">sair</a></li>
-                </ul>
+               
+                    {this.props.user == null ? (
+                        <ul>
+                            <li><a href="/">início</a></li>
+                            <li><a href="/signup">cadastro</a></li> 
+                        </ul>):
+                        (<ul>
+                            <li><a href="/">início</a></li>
+                            <li><a href="/friends">amigos</a> </li>
+                            <li><a href="/" onClick={this.logout}>sair</a></li>
+                        </ul>)
+                    }
+                     
+                
                 </nav>
             </header>
             /* <div>
