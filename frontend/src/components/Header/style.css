@@ -1,0 +1,7 @@
+.menu ul li{
+    display: inline-block;
+    list-style-type: none;
+}
+.menu ul li a{
+    padding: 10px;  
+}

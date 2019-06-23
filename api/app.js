@@ -14,8 +14,16 @@ session = require('express-session'),
 cors = require("cors");
 
 var app = express();
-
-app.use(cors());
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  "Access-Control-Allow-Credentials": true,
+  "Access-Control-Allow-Origin": true,
+  "Access-Control-Allow-Headers": true,
+  "Access-Control-Expose-Headers": true,
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
 
 // Motor de template
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +37,9 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.connection.on('connected', function () {
   console.log('Mongoose default connection open');
 });
+
+
+
 app.use(bodyParser.json());
 // for parsing application/xwww-
 app.use(bodyParser.urlencoded({ extended: true }));

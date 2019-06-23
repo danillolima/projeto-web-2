@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './style.css';
 export default class Header extends React.Component{
     constructor(props){
         super(props);
@@ -10,8 +10,8 @@ export default class Header extends React.Component{
     render(){
         return (
             <header>
-                <h1 class="logo">{this.state.title}</h1>
-                <nav class="menu">
+                <h1 className="logo">{this.state.title}</h1>
+                <nav className="menu">
                 <ul>
                     <li><a href="/">início</a></li>
                     <li><a href="/signup">cadastro</a></li>  
