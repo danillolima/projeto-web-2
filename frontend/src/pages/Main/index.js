@@ -12,7 +12,7 @@ class Main extends React.Component {
     render(){
     return (
       <Fragment>
-        <Header />
+        <Header history={this.props.history}/>
         <div className="login">
           <Login history={this.props.history}/>
         </div>

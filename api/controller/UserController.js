@@ -102,36 +102,37 @@ exports.sair = function(req, res){
 };
 
 exports.buscar = function(req, res){
-    let search = req.query.q;
-    userModel.find({user: { $not:  { $regex: req.session.key }, $regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
+    let search = req.query.q, user = req.query.user;
+
+    userModel.find({user: { $not:  { $regex: user }, $regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
         if(err) console.log(err);
         
         if(doc == undefined){
-                return res.send('<p style="color:#fff;">Nada encontrado</p>');
+                return res.json({message: 'Nada encontrado'});
         }    
         console.log(doc);
-        res.render('search', {resultados: doc, layout: 'search'} );
+        res.send(doc);
     }).limit(10);
 };
 
 // Recebo id do usuário para adicionar
 exports.addUser = function(req, res){
-    let id = req.query.id;
-    if (req.session && req.session.key && id != undefined) {
+    let id = req.query.id, user = req.query.user;
+   // if (req.session && req.session.key && id != undefined) {
 
-        userModel.findOne({"user": req.session.key}, function(err,doc){
+        userModel.findOne({"user": user}, function(err,doc){
             if(err || doc === null){
-                return res.send('['+JSON.stringify({message: "Erro no banco de dados"})+']');
+                return res.send(JSON.stringify({message: "Erro no banco de dados"})+']');
             }
     
             doc.friends.push({_id: id});
       
             doc.save(function(){
-                res.send('<p style="color:#fff;">Amigo adicionado com sucesso</p>');
+                res.send(JSON.stringify({message : 'Amigo adicionado com sucesso'}));
             });
         });
-    }
+   /* }
     else{
         res.redirect('/');
-    }
+    }*/
 };

@@ -2,6 +2,8 @@ import React from 'react';
 import './style.css';
 import '../../services/api'
 import api from '../../services/api';
+import Search from '../../components/Search';
+
 export default class Header extends React.Component{
     constructor(props){
         super(props);
@@ -29,9 +31,8 @@ export default class Header extends React.Component{
                             <li><a href="/" onClick={this.logout}>sair</a></li>
                         </ul>)
                     }
-                     
-                
                 </nav>
+                <Search history={this.props.history}/> 
             </header>
             /* <div>
                 <h1> Questões de {this.props.title}</h1>

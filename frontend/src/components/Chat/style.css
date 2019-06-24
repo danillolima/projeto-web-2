@@ -1,0 +1,44 @@
+.chat form{
+    display: grid;
+    grid-template-columns: 80% 20%;
+
+    bottom: 0px;
+    margin-block-end: 0;
+}
+
+.chat{
+    background-color: blueviolet;
+    color: #000;
+    max-height: 500px;
+    overflow-y: scroll;
+    
+}
+.msgs{
+    min-height: 400px;
+    padding: 10px;
+}
+.chat form input{
+    margin-bottom: 0;
+}
+.chat .enviada{
+    float: right;
+    width: 100%;
+}
+.send{
+    text-align: right;
+}
+.received{
+    margin-top: 3px;
+    text-align: left;
+    line-height: 2;
+}
+.send span{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #dcf8c6;
+}
+.received span{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f8f1c6;
+}

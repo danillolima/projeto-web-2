@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
@@ -14,7 +13,8 @@ class Router extends Component {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route path="/signup" component={Signup} />
-          <Route path="/friends" component={Auth(Friends)} />
+          <Route path="/friends/:rota?/:id?" component={Auth(Friends)} />
+          
         </Switch>
       </BrowserRouter>
     );

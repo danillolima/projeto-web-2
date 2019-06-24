@@ -5,11 +5,11 @@ var User = require('../model/User');
 
 exports.create_message = function(req, res) {
 
-    let sender = req.session.key, recipient = req.query.id, msg = req.body.msg;
-    console.log('Post: '+ recipient);
-    console.log('Msg: '+ msg);
+    let sender = req.body.sender, recipient = req.body.recipient, msg = req.body.msg;
+    //console.log('Post: '+ recipient);
+    //console.log('Msg: '+ msg);
 
-    if (req.session && req.session.key) {
+   // if (req.session && req.session.key) {
         User.findOne({"user": sender}, function(err,doc){
             if(err || doc === null){
                 return res.send('['+JSON.stringify({message: "Erro no banco de dados"})+']');
@@ -17,14 +17,15 @@ exports.create_message = function(req, res) {
             if(msg.length > 0){
                 Message.create({message: msg, sender: doc.id, recipient: recipient }, function(err, doc){
                     if(err) console.log(err);
+                    res.send({message: 'Criada com sucesso!'});
                 });
             }
-            res.redirect('/chat?id='+recipient);
+            //res.redirect('/chat?id='+recipient);
         });
-    }
+    /*}
     else{
         res.redirect('/');
-    }
+    }*/
 };
 
 exports.get_all_messages = function(req, res){

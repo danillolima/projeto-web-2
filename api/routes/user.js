@@ -12,7 +12,7 @@ router.get('/cadastrar', function(req, res, next){
 });
 
 router.get('/add',  auth.withAuth, userController.addUser);
-router.get('/busca', auth.withAuth, userController.buscar);
+router.get('/search', auth.withAuth, userController.buscar);
 router.post('/friends', auth.withAuth, userController.show_friends);
 router.get('/logout', userController.sair);
 router.post('/create', userController.create_user);
