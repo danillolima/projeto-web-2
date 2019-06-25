@@ -126,7 +126,7 @@ exports.addUser = function(req, res){
             }
     
             doc.friends.push({_id: id});
-      
+
             doc.save(function(){
                 res.send(JSON.stringify({message : 'Amigo adicionado com sucesso'}));
             });

@@ -13,13 +13,13 @@ export default class Chat extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     handleChange(event) {
         this.setState({message: event.target.value});
     }
 
-    handleSubmit(event){   
-        event.preventDefault();
+    handleSubmit = (event) =>{   
+       
         api.post('/api/chat/createMessage', {
             sender: this.props.user,
             msg: this.state.message,
@@ -27,19 +27,38 @@ export default class Chat extends Component{
         })
         .then(response => {
             if(response.status === 200) {
-                this.setState({ 
-                    messages: this.state.messages.concat([this.state.message])
-                });
-               // this.setState state.messages.push();
+                //console.log(this.state.message);
+               // this.setState({ 
+                 //   messages: [...this.state.messages, this.state.message]
+               // })
+                this.setState(state => {
+                    const messages = state.messages.concat(response.data);
+                    return {
+                        messages,
+                        message: ''
+                    };
+                })
             }
         })
         .catch(error => {
 
-        });        
+        });                  
+        event.preventDefault();
+    };
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
+
     componentDidMount(){
         this.getMessages();
+        this.scrollToBottom();
     }
+    componentDidUpdate(){
+        this.scrollToBottom();
+    }
+
+    
     getMessages = async () =>{
         console.log(this.props.user);
         api.post('/api/chat/getMessages', {
@@ -61,11 +80,15 @@ export default class Chat extends Component{
     }
 
     render(){
+        
+        //let chat = document.querySelector("#lk8");
+
+        //chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+        
         return (
             <Fragment>
-
-            <div className="chat"> 
-           <div className="msgs">
+            <div className="chat" id="lk8"> 
+            <div className="msgs">
             {(this.state.messages.length &&
             this.state.messages.map((item, key) => {
                 if(item.sender === this.props.recipient){
@@ -80,12 +103,13 @@ export default class Chat extends Component{
                 }
 
 
-            })) || <div>Carregando...</div>
+            })) || <div>Não foram encontradas mensagens</div>
             }</div>
                 <form onSubmit={this.handleSubmit}>
                    <input type="text"  value={this.state.message} onChange={this.handleChange} />
                    <button id="btnEnviar">Enviar mensagem</button>
                </form>
+               <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}></div>
            </div>
            
            </Fragment>

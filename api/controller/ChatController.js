@@ -17,7 +17,7 @@ exports.create_message = function(req, res) {
             if(msg.length > 0){
                 Message.create({message: msg, sender: doc.id, recipient: recipient }, function(err, doc){
                     if(err) console.log(err);
-                    res.send({message: 'Criada com sucesso!'});
+                    res.send(doc);
                 });
             }
             //res.redirect('/chat?id='+recipient);
