@@ -8,7 +8,8 @@ export default class Chat extends Component{
         this.state = {
             title: 'Chat Legal',
             messages: [],
-            message: ''
+            message: '',
+            recipient: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,19 +19,21 @@ export default class Chat extends Component{
         this.setState({message: event.target.value});
     }
 
-    handleSubmit = (event) =>{   
+
+
+    handleSubmit = (event) => {   
        
         api.post('/api/chat/createMessage', {
             sender: this.props.user,
             msg: this.state.message,
-            recipient: this.props.recipient
         })
-        .then(response => {
+        .then((response) => {
             if(response.status === 200) {
                 //console.log(this.state.message);
-               // this.setState({ 
-                 //   messages: [...this.state.messages, this.state.message]
-               // })
+              //  this.setState({ 
+                   //messages: [...this.state.messages, this.state.message]
+             //  })
+             //this.setState(prevState => ({messages: [...prevState.messages, this.state.message]}));
                 this.setState(state => {
                     const messages = state.messages.concat(response.data);
                     return {
@@ -47,20 +50,32 @@ export default class Chat extends Component{
     };
 
     scrollToBottom = () => {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        this.messagesEnd.scrollIntoView({ behavior: "instant" });
     }
 
+    componentWillMount() {
+        this.setState({recipient: this.props.recipient});
+    }
     componentDidMount(){
         this.getMessages();
         this.scrollToBottom();
     }
     componentDidUpdate(){
         this.scrollToBottom();
+       if(this.state.recipient !== this.props.recipient){
+            this.setState({recipient: this.props.recipient});
+            this.getMessages();
+            
+       }
     }
+/* 
+    componentWillUpdate(){
+        if(this.state.recipient !== this.props.recipient)
+            this.setState({recipient: this.props.recipient});
+    }*/
 
-    
-    getMessages = async () =>{
-        console.log(this.props.user);
+    getMessages = () => {
+        console.log(this.state.recipient);
         api.post('/api/chat/getMessages', {
             sender: this.props.user,
             recipient: this.props.recipient
@@ -73,6 +88,7 @@ export default class Chat extends Component{
             else {
               console.log(response.error);
             }     
+            console.log(this.state.recipient);
          })
         .catch(error => {
             console.log(error.message);
@@ -88,7 +104,7 @@ export default class Chat extends Component{
         return (
             <Fragment>
             <div className="chat" id="lk8"> 
-            <div className="msgs">
+            <div className="msgs" key={this.props.recipient}>
             {(this.state.messages.length &&
             this.state.messages.map((item, key) => {
                 if(item.sender === this.props.recipient){

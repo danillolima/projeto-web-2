@@ -42,7 +42,7 @@ export default class Search extends React.Component{
         this.setState({last: this.props.term});
     }
     componentDidUpdate(){
-        if(this.state.last != this.props.term){
+        if(this.state.last !== this.props.term){
             this.getFriends();
             this.setState({last: this.props.term});
         }
@@ -57,9 +57,11 @@ export default class Search extends React.Component{
              
                     {(this.state.results.length &&
             this.state.results.map((item, key) => {
-               return (
-                    <li className="enviada" key={key}>{item.user} <button onClick={(e) => this.addUser(item._id, e)}>Adicionar</button></li>            
-               );
+                if (item.user !== this.props.user) {
+                    return item.friend === false ? (
+                            <li className="enviada" key={key}>{item.user} <button onClick={(e) => this.addUser(item._id, e)}>Adicionar</button></li>            
+                    ):<li className="enviada" key={key}>{item.user}</li>;
+                }
             })) || <div>Nada encontrado</div>
             }
               

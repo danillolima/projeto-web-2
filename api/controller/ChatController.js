@@ -29,13 +29,17 @@ exports.create_message = function(req, res) {
 };
 
 exports.get_all_messages = function(req, res){
-    var sender = req.body.sender, idRecipient = req.body.recipient;
+    let sender = req.body.sender, idRecipient = req.body.recipient;
+    
+    console.log('Debug: '+ sender + ' ' + idRecipient);
+    
     if(idRecipient == null){
         //return res.send('Oops!');
         let msgs = { 
             message: 'Oops'
         };
         return res.send(JSON.stringify(msgs));
+       
     }
     console.log(sender + ' ' + idRecipient );
     User.findOne({user: sender}, function(err, doc){

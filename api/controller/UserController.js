@@ -104,15 +104,43 @@ exports.sair = function(req, res){
 exports.buscar = function(req, res){
     let search = req.query.q, user = req.query.user;
 
-    userModel.find({user: { $not:  { $regex: user }, $regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
+    userModel.find({user: {$regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
         if(err) console.log(err);
         
         if(doc == undefined){
                 return res.json({message: 'Nada encontrado'});
         }    
-        console.log(doc);
-        res.send(doc);
-    }).limit(10);
+        //console.log(doc);
+        var docs;
+        var userlogado;
+    
+        docs = doc.map((item, key) => {
+            if(item.user !== user){
+                
+                let obj = JSON.parse(JSON.stringify(item));
+                obj.friend = null;
+                return obj;
+            }
+            
+            //console.log('else '+item.user);
+            
+            return userlogado = item;  
+        });
+ 
+        docs.forEach(function(item){
+            if(userlogado.friends.includes(item._id)){
+                item.friend = true;
+            }
+            else{
+                item.friend = false;
+            }
+           // console.log('teste'+item)
+        });
+        //console.log(docs);
+        res.send(docs);
+        
+
+    }).limit(10).select({"user": 1, "friends": 1});
 };
 
 // Recebo id do usuário para adicionar

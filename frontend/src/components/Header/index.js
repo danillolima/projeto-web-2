@@ -3,6 +3,7 @@ import './style.css';
 import '../../services/api'
 import api from '../../services/api';
 import Search from '../../components/Search';
+import { Link } from 'react-router-dom';
 
 export default class Header extends React.Component{
     constructor(props){
@@ -26,9 +27,9 @@ export default class Header extends React.Component{
                             <li><a href="/signup">cadastro</a></li> 
                         </ul>):
                         (<ul>
-                            <li><a href="/">início</a></li>
-                            <li><a href="/friends">amigos</a> </li>
-                            <li><a href="/" onClick={this.logout}>sair</a></li>
+                            <li><Link to="/">início</Link></li>
+                            <li><Link to="/friends">amigos</Link> </li>
+                            <li><Link to="/" onClick={this.logout}>sair</Link></li>
                         </ul>)
                     }
                 </nav>

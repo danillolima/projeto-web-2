@@ -16,7 +16,7 @@ class Friends extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentWillMount() {
     this.setState({id: this.props.match.params.id,
                   rota: this.props.match.params.rota  }) 
   }
@@ -29,14 +29,14 @@ class Friends extends React.Component {
       else if(this.props.match.params.rota === 'search' && this.props.match.params.id != null){
         content = <Result term={this.props.match.params.id} user={this.props.user} />
       }
-      console.log(this.props.match.params.rota);
+      console.log(this.props.match.params.id);
       
     return (
     <Fragment>
       <Header user={this.props.user}  history={this.props.history}/>
 
       <div className="friends">
-          <ListFriends user={this.props.user}/>
+          <ListFriends user={this.props.user} recipient={this.props.match.params.id}/>
           {content}  
       </div>
     </Fragment>

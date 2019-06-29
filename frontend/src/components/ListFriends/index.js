@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import api from "../../services/api";
+import { Link } from 'react-router-dom';
 
 export default class ListFriends extends Component{
     constructor(props){
@@ -10,12 +11,12 @@ export default class ListFriends extends Component{
         };
     }
     componentDidMount(){
-        this.getMessages();
+        this.getFriends();
     }
-    getMessages = async () =>{
+    getFriends = async () =>{
         console.log(this.props.user);
         api.post('/api/users/friends', {
-            user: this.props.user
+            user: this.props.user,
           })
           .then(response => {
             if(response.status === 200) {
@@ -38,9 +39,13 @@ export default class ListFriends extends Component{
                 <h3> Lista de amigos </h3> 
             {(this.state.messages.length &&
             this.state.messages.map((item, key) => {
-               return (
-                    <li className="enviada" key={key}><a href={`/friends/chatWith/${item._id}`}>{item.user}</a></li>            
-               );
+              
+                    return (
+                       
+                            <li className="enviada" key={key}><Link to={`/friends/chatWith/${item._id}`} params={{recipient :  item._id}} >{item.user}</Link></li>   
+                                    
+                    );
+               
             })) || <div>Carregando...</div>
             }
            </div>

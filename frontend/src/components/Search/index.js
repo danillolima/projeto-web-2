@@ -21,12 +21,12 @@ export default class Search extends React.Component{
     }
     render(){
         return (
-            <div> 
+            <Fragment> 
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" placeholder="Pesquise por um amigo..." value={this.state.term} onChange={this.handleChange} />
                     <input type="submit" value="Buscar" />
                 </form>
-            </div>
+            </Fragment>
         )
     }
 }

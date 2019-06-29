@@ -14,8 +14,16 @@ session = require('express-session'),
 cors = require("cors");
 
 var app = express();
+let whitelist = ['http://localhost:3000', 'http://127.0.0.1:3000'];
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
