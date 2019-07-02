@@ -33,8 +33,10 @@ export default class Header extends React.Component{
                         </ul>)
                     }
                 </nav>
-                <Search history={this.props.history}/> 
-            </header>
+                {this.props.user != null &&
+                    <Search history={this.props.history}/> 
+                }      
+                </header>
             /* <div>
                 <h1> Questões de {this.props.title}</h1>
                 <form onSubmit={this.handleSubmit}>

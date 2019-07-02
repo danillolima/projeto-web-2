@@ -25,6 +25,7 @@ export default class Chat extends Component{
        
         api.post('/api/chat/createMessage', {
             sender: this.props.user,
+            recipient: this.state.recipient,
             msg: this.state.message,
         })
         .then((response) => {
