@@ -5,7 +5,7 @@ var ChatController = require('../controller/ChatController')
 
 /* GET home page. */
 
-router.post('/getMessages', ChatController.get_all_messages);
-router.post('/createMessage', ChatController.create_message);
+router.get('/messages', ChatController.get_all_messages);
+router.post('/message', ChatController.create_message);
 
 module.exports = router;

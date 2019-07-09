@@ -1,0 +1,3 @@
+Fazer requisição e atualiza o chat sozinho
+ajeitar as rotas de requisição
+verificar a autenticação das rotas de usuário

@@ -23,7 +23,7 @@ export default class Chat extends Component{
 
     handleSubmit = (event) => {   
        
-        api.post('/api/chat/createMessage', {
+        api.post('/api/chat/message', {
             sender: this.props.user,
             recipient: this.state.recipient,
             msg: this.state.message,
@@ -57,9 +57,17 @@ export default class Chat extends Component{
     componentWillMount() {
         this.setState({recipient: this.props.recipient});
     }
+    
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     componentDidMount(){
         this.getMessages();
         this.scrollToBottom();
+        this.interval = setInterval(() => {
+            this.getMessages();
+          }, 5000);
     }
     componentDidUpdate(){
         this.scrollToBottom();
@@ -77,9 +85,11 @@ export default class Chat extends Component{
 
     getMessages = () => {
         console.log(this.state.recipient);
-        api.post('/api/chat/getMessages', {
-            sender: this.props.user,
-            recipient: this.props.recipient
+        api.get('/api/chat/messages', {
+            params:{
+                sender: this.props.user,
+                recipient: this.props.recipient
+            }
           })
           .then(response => {
             if(response.status === 200) {

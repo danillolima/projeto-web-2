@@ -7,11 +7,11 @@ export default class ListFriends extends Component{
         super(props);
         this.state = {
             title: 'Chat Legal',
-            messages: []
+            friends: []
         };
     }
     componentDidMount(){
-        this.getFriends();
+        this.setState({friends: this.props.friends});
     }
     getFriends = async () =>{
         console.log(this.props.user);
@@ -20,7 +20,7 @@ export default class ListFriends extends Component{
           })
           .then(response => {
             if(response.status === 200) {
-              this.setState({messages: response.data})
+              this.setState({friends: response.data})
               console.log(response);
             }
             else {
@@ -37,16 +37,16 @@ export default class ListFriends extends Component{
         
             <div className="listFriends">
                 <h3> Lista de amigos </h3> 
-            {(this.state.messages.length &&
-            this.state.messages.map((item, key) => {
+            {(this.props.friends.length &&
+            this.props.friends.map((item, key) => {
               
                     return (
                        
-                            <li className="enviada" key={key}><Link to={`/friends/chatWith/${item._id}`} params={{recipient :  item._id}} >{item.user}</Link></li>   
+                            <li className="enviada" key={key}><Link to={`/friends/chat/${item._id}`} params={{recipient :  item._id}} >{item.user}</Link></li>   
                                     
                     );
                
-            })) || <div>Carregando...</div>
+            })) || <div>0 amigos adicionados</div>
             }
            </div>
            </Fragment>

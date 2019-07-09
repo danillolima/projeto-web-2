@@ -48,7 +48,7 @@ exports.create_user = function(req, res) {
 exports.show_friends = function(req, res){
     //if (req.session && req.session.key) {
         let user = req.body.user;
-        userModel.findOne({"user": user}, function(err,doc){
+        userModel.findOne({"user": user}, function(err, doc){
             if(err || doc === null){
                 return res.send('['+JSON.stringify({message: "Erro no banco de dados"})+']');
             }
@@ -104,19 +104,20 @@ exports.sair = function(req, res){
 exports.buscar = function(req, res){
     let search = req.query.q, user = req.query.user;
 
-    userModel.find({user: {$regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
+    userModel.find({user: { $not:  { $regex: user }, $regex: '.*' + search + '.*',  $options : 'i'}}, function(err,doc){
         if(err) console.log(err);
         
         if(doc == undefined){
                 return res.json({message: 'Nada encontrado'});
         }    
-        //console.log(doc);
-        var docs;
-        var userlogado;
-    
+        console.log(doc);
+        res.send(doc);
+    }).limit(10);
+};
+
+    /*
         docs = doc.map((item, key) => {
             if(item.user !== user){
-                
                 let obj = JSON.parse(JSON.stringify(item));
                 obj.friend = null;
                 return obj;
@@ -128,7 +129,8 @@ exports.buscar = function(req, res){
         });
  
         docs.forEach(function(item){
-            if(userlogado.friends.includes(item._id)){
+            
+            if(userLogado.friends !== undefined && userlogado.friends.includes(item._id)){
                 item.friend = true;
             }
             else{
@@ -141,24 +143,36 @@ exports.buscar = function(req, res){
         
 
     }).limit(10).select({"user": 1, "friends": 1});
-};
+};*/
 
 // Recebo id do usuário para adicionar
 exports.addUser = function(req, res){
-    let id = req.query.id, user = req.query.user;
+    let id = req.body.id, user = req.body.user;
    // if (req.session && req.session.key && id != undefined) {
 
-        userModel.findOne({"user": user}, function(err,doc){
+        userModel.findOne({"user": user}, function(err, doc){
             if(err || doc === null){
                 return res.send(JSON.stringify({message: "Erro no banco de dados"})+']');
             }
     
             doc.friends.push({_id: id});
+            
+            userModel.findById({"_id": id}, (insideErr, insideDoc) => {
+                if(insideErr || insideDoc === null){
+                    return res.send(JSON.stringify({message: "Erro no banco de dados"})+']');
+                }
+                insideDoc.friends.push({_id: doc.id});
+    
+                insideDoc.save();
+            })
+
 
             doc.save(function(){
                 res.send(JSON.stringify({message : 'Amigo adicionado com sucesso'}));
             });
         });
+
+        
    /* }
     else{
         res.redirect('/');

@@ -29,7 +29,7 @@ exports.create_message = function(req, res) {
 };
 
 exports.get_all_messages = function(req, res){
-    let sender = req.body.sender, idRecipient = req.body.recipient;
+    let sender = req.query.sender, idRecipient = req.query.recipient;
     
     console.log('Debug: '+ sender + ' ' + idRecipient);
     

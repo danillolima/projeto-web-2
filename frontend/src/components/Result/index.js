@@ -15,8 +15,7 @@ export default class Search extends React.Component{
         api.get(`/api/users/search?q=${this.props.term}&user=${this.props.user}`)
         .then(response => {
             if(response.status === 200) {
-
-              console.log('AA:'+ response.data);
+              //console.log('AA:'+ response.data);
               this.setState({results: response.data});
             }      
         })
@@ -25,12 +24,15 @@ export default class Search extends React.Component{
         });
     }
     addUser(id){
-        api.get(`/api/users/add?id=${id}&user=${this.props.user}`)
+        //api.post(`/api/users/add?id=${id}&user=${this.props.user}`)
+        api.post(`/api/users/friendship`,{
+            id: id,
+            user: this.props.user
+        })
         .then(response => {
             if(response.status === 200) {
-
-              console.log('Result from add  :'+ response.data);
-              this.setState({results: response.data});
+                console.log('Result from add  :'+ response.data);
+                //this.setState({results: response.data});
             }      
         })
         .catch(error => {
@@ -58,10 +60,11 @@ export default class Search extends React.Component{
                     {(this.state.results.length &&
             this.state.results.map((item, key) => {
                 if (item.user !== this.props.user) {
-                    return item.friend === false ? (
-                            <li className="enviada" key={key}>{item.user} <button onClick={(e) => this.addUser(item._id, e)}>Adicionar</button></li>            
-                    ):<li className="enviada" key={key}>{item.user}</li>;
-                }
+                    return this.props.friends.filter(e => e.user === item.user).length>0 ?
+                            (<li key={key}>{item.user} - Usuário já adicionado </li>)            
+                    :(<li key={key}> {item.user} - <button onClick={(e) => this.addUser(item._id, e)}> Adicionar</button></li>);
+             }
+                return null;
             })) || <div>Nada encontrado</div>
             }
               

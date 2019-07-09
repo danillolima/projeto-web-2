@@ -23,11 +23,11 @@ export default class Header extends React.Component{
                
                     {this.props.user == null ? (
                         <ul>
-                            <li><a href="/">início</a></li>
-                            <li><a href="/signup">cadastro</a></li> 
+                             <li><Link to="/">início</Link></li>
+                            <li><Link to="/signup">cadastro</Link></li> 
                         </ul>):
                         (<ul>
-                            <li><Link to="/">início</Link></li>
+                           
                             <li><Link to="/friends">amigos</Link> </li>
                             <li><Link to="/" onClick={this.logout}>sair</Link></li>
                         </ul>)

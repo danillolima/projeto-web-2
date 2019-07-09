@@ -36,7 +36,7 @@ export default class SignupForm extends React.Component{
         })
         .then(function (response){
             self.setState({messages: response.data});       
-            console.log(response.data);       
+            console.log(response.data);      
         })
         .catch(function(error){
             self.setState({messages: error.data});
@@ -49,7 +49,7 @@ export default class SignupForm extends React.Component{
             <form onSubmit={this.handleSubmit}>
                 <div>
                     <ul>
-                    {(this.state.messages.length &&
+                    {(this.state.messages !== undefined && this.state.messages.length &&
                     this.state.messages.map((item, key) => {
                     return (
                             <li key={key}>{item.message}</li>            
